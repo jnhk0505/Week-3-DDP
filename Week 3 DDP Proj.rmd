@@ -1,0 +1,47 @@
+---
+title: "Education and Wage"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+author: "June Kieu"
+date: "9/14/2019"
+output: 
+  ioslides_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Data
+
+### I am using data from package *ISLR*, data set **Wage**
+
+#### First of all, I created 2 sets of data, one for training and one for validation
+
+
+## Packages Required
+
+```{r Wage, echo=T, results='hide'}
+library(ISLR)
+require(ggplot2)
+require(caret)
+require(plotly)
+data(Wage)
+summary(Wage)
+inTrain <- createDataPartition(Wage$wage,p=0.7,list=FALSE)
+training <- Wage[inTrain,]
+testing <- Wage[-inTrain,]
+```
+
+## Graph by Plotly
+
+```{r Plot, echo = FALSE, fig.cap='Education and Wages', fig.align='center'}
+p <- ggplot(data=training,aes(x=education,y=wage,fill=education))+ geom_boxplot(alpha=.5)
+p <- ggplotly(p)
+p
+```
+
